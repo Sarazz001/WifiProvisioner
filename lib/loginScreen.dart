@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'homeScreen.dart';
 
 class LoginScreen extends StatefulWidget {
-	
+  const LoginScreen({super.key});
 	_LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -13,10 +13,12 @@ class _LoginScreenState extends State<LoginScreen> {
 	final TextEditingController _passwordController = TextEditingController();
 	bool isSignUp = false;
 
+	@override
 	Widget build(BuildContext context) {
 		return Scaffold(
 			appBar: AppBar(
 				title: Text("Home Automationer"),
+				backgroundColor: Colors.deepPurpleAccent,
 				),
 			body: Container(
 				decoration: BoxDecoration(
@@ -68,20 +70,20 @@ class _LoginScreenState extends State<LoginScreen> {
 							_buildPasswordField(),
 							SizedBox(height: 16),
 							ElevatedButton(
-							  style: ElevatedButton.styleFrom(
+								style: ElevatedButton.styleFrom(
 								backgroundColor: Colors.purple[100],
 								padding: EdgeInsets.symmetric(horizontal: 35, vertical: 15),
 								shape: RoundedRectangleBorder(
 									borderRadius: BorderRadius.circular(25),
 								),
-							  ),
-							  onPressed: () {
-								_signUp(
-								  _emailController.text.trim(),
-								  _passwordController.text.trim(),
-								);
-							},
-							child: Text('Sign Up'),
+								),
+								onPressed: () {
+									_signUp(
+										_emailController.text.trim(),
+										_passwordController.text.trim(),
+									);
+								},
+								child: Text('Sign Up'),
 							),
 							SizedBox(height: 20),
 							TextButton(
