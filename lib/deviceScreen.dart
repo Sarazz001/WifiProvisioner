@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/material.dart';
-enum DeviceScreenType { HOME, KITCHEN, HALL, ROOM1,ROOM2 }
+enum DeviceScreenType { home, kitchen, hall, room1, room2 }
 
 
 class Device {
@@ -44,19 +44,19 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
 					final String access = accessController.text.trim();
 					if(id.isNotEmpty && access.isNotEmpty) {
 						setState(() {
-							if( widget.mode == DeviceScreenType.HOME ) {
+							if( widget.mode == DeviceScreenType.home ) {
 								homeDevices.add(Device( deviceId : id, deviceAccess :access));
 							}
-							else if( widget.mode == DeviceScreenType.KITCHEN ) {
+							else if( widget.mode == DeviceScreenType.kitchen ) {
 								kitchenDevices.add(Device( deviceId : id, deviceAccess :access));
 							}
-							else if( widget.mode == DeviceScreenType.HALL ) {
+							else if( widget.mode == DeviceScreenType.hall ) {
 								hallDevices.add(Device( deviceId : id, deviceAccess :access));
 							}
-							else if( widget.mode == DeviceScreenType.ROOM1 ) {
+							else if( widget.mode == DeviceScreenType.room1 ) {
 								room1Devices.add(Device( deviceId : id, deviceAccess :access));
 							}
-							else if( widget.mode == DeviceScreenType.ROOM2 ) {
+							else if( widget.mode == DeviceScreenType.room2 ) {
 								room2Devices.add(Device( deviceId : id, deviceAccess :access));
 							}
 							_showAddDevice = false;
@@ -105,19 +105,19 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
 				final loadedDevices = await loadDevices( widget.mode.name );
 				setState(() {
 				  switch( widget.mode ) {
-						case DeviceScreenType.HOME:
+						case DeviceScreenType.home:
 							homeDevices = loadedDevices;
 							break;
-						case DeviceScreenType.KITCHEN:
+						case DeviceScreenType.kitchen:
 							kitchenDevices = loadedDevices;
 							break;
-						case DeviceScreenType.HALL:
+						case DeviceScreenType.hall:
 							hallDevices = loadedDevices;
 							break;
-						case DeviceScreenType.ROOM1:
+						case DeviceScreenType.room1:
 							room1Devices = loadedDevices;
 							break;
-						case DeviceScreenType.ROOM2:
+						case DeviceScreenType.room2:
 							room2Devices = loadedDevices;
 							break;
 					}
@@ -126,15 +126,15 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
 
 			List<Device> get devices {
 				switch ( widget.mode ) {
-					case DeviceScreenType.HOME:
+					case DeviceScreenType.home:
 						return homeDevices;
-					case DeviceScreenType.HALL:
+					case DeviceScreenType.hall:
 						return hallDevices;
-					case DeviceScreenType.KITCHEN:
+					case DeviceScreenType.kitchen:
 						return kitchenDevices;
-					case DeviceScreenType.ROOM1:
+					case DeviceScreenType.room1:
 						return room1Devices;
-					case DeviceScreenType.ROOM2:
+					case DeviceScreenType.room2:
 						return room2Devices;
 				}
 			}
@@ -201,8 +201,9 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
 															_addDevice();
 															saveDevices( widget.mode.name, devices);
 														}
-													}
-												, child: Text('Save device')),
+													},
+													child: Text('Save device'),
+												),
 											],
 										),
 									)
@@ -218,7 +219,7 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
 												child: ListTile(
 													title: Text(device.deviceId),
 													subtitle: Text('Access: ${device.deviceAccess}'),
-													tileColor: Colors.pinkAccent,
+													tileColor: Colors.purpleAccent[100],
 												),
 											);
 										},

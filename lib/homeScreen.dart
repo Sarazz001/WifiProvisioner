@@ -22,26 +22,59 @@ class HomeScreen extends StatelessWidget {
 					child: Column(
 						children: [
 							ListTile (
-								title: Text('Floor'),
+								title: Text( DeviceScreenType.home.name ),
 								tileColor: Colors.lightBlueAccent,
 								textColor: Colors.black,
-								leading: Icon(Icons.home),
+								leading: Icon( Icons.home ),
 								onTap: () {
-									Navigator.push(context, MaterialPageRoute(builder: (context) => DeviceListScreen( mode: DeviceScreenType.HOME )),
+									Navigator.push(context, MaterialPageRoute(builder: (context) => DeviceListScreen( mode: DeviceScreenType.home )),
 									);
 								},
 							),
 							SizedBox(height: 15.0),
 							ListTile(
-								title: Text('Kitchen'),
+								title: Text( DeviceScreenType.hall.name ),
 								tileColor: Colors.lightBlueAccent,
 								textColor: Colors.black,
-								leading: Icon(Icons.kitchen),
+								leading: Icon( Icons.meeting_room ),
 								onTap: () {
-									Navigator.push(context, MaterialPageRoute(builder: (context) => DeviceListScreen( mode: DeviceScreenType.KITCHEN )),
+									Navigator.push(context, MaterialPageRoute(builder: (context) => DeviceListScreen( mode: DeviceScreenType.hall )),
 									);
 								},
 							),
+							SizedBox( height: 15.0 ),
+							ListTile(
+								title: Text( DeviceScreenType.kitchen.name ),
+								tileColor: Colors.lightBlueAccent,
+								textColor: Colors.black,
+								leading: Icon( Icons.kitchen ),
+								onTap: () {
+									Navigator.push(context, MaterialPageRoute(builder: (context) => DeviceListScreen(mode: DeviceScreenType.kitchen)),
+									);
+								},
+							),
+							SizedBox( height: 15.0 ),
+							ListTile(
+								title: Text( DeviceScreenType.room1.name ),
+								tileColor: Colors.lightBlueAccent,
+								textColor: Colors.black,
+								leading: Icon( Icons.bedroom_parent_rounded ),
+								onTap: () {
+									Navigator.push(context, MaterialPageRoute(builder: (context) => DeviceListScreen(mode: DeviceScreenType.room1)),
+									);
+								},
+							),
+							SizedBox( height: 15.0 ),
+							ListTile(
+								title: Text( DeviceScreenType.room2.name ),
+								tileColor: Colors.lightBlueAccent,
+								textColor: Colors.black,
+								leading: Icon( Icons.bedroom_parent_rounded ),
+								onTap: () {
+									Navigator.push(context, MaterialPageRoute(builder: (context) => DeviceListScreen(mode: DeviceScreenType.room2)),
+									);
+								},
+							)
 						],
 					),
 			)

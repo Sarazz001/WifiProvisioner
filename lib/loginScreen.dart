@@ -2,57 +2,70 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'homeScreen.dart';
 
+//login screen widget allows users enter email and password
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+	@override
 	_LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-	final _formkey = GlobalKey<FormState>();
+	final _formKey = GlobalKey<FormState>();
 	final TextEditingController _emailController = TextEditingController();
 	final TextEditingController _passwordController = TextEditingController();
 	bool isSignUp = false;
 
 	@override
+	void dispose() {
+		_emailController.dispose();
+		_passwordController.dispose();
+		super.dispose();
+	}
+
+
+	@override
 	Widget build(BuildContext context) {
 		return Scaffold(
 			appBar: AppBar(
-				title: Text("Home Automationer"),
+				title: const Text("Home Automation"),
 				backgroundColor: Colors.deepPurpleAccent,
 				),
 			body: Container(
-				decoration: BoxDecoration(
+				decoration: const BoxDecoration(
 				  gradient: LinearGradient(
 					colors: [Colors.greenAccent, Colors.blueAccent],
 					begin: Alignment.topLeft,
 					end: Alignment.bottomRight,
+				 ),
 				),
-				),
-				padding: EdgeInsets.all(20.0),
+				padding: const EdgeInsets.all(20.0),
 				child: Form( 
-				key: _formkey,
+				key: _formKey,
 				child: Column(
 					mainAxisAlignment: MainAxisAlignment.center,
 					children: <Widget>[
-						Icon(Icons.lock, size: 100, color: Colors.blue),
-						SizedBox(height: 16),
+						const Icon(Icons.lock, size: 50, color: Colors.blue),
+						const SizedBox( height: 16 ),
 						if( !isSignUp ) ...[
 							_buildEmailField(),
-							SizedBox(height: 16),
+							const SizedBox(height: 16),
 							_buildPasswordField(),
-							SizedBox(height: 16),
+							const SizedBox(height: 16),
 							ElevatedButton(
 								style: ElevatedButton.styleFrom(
-									backgroundColor: Colors.purple[100],
+									backgroundColor: Colors.greenAccent.shade100,
+									foregroundColor: Colors.blue,
 									padding: EdgeInsets.symmetric(horizontal: 35, vertical: 15),
 									shape: RoundedRectangleBorder(
-										borderRadius: BorderRadius.circular(25),
+										borderRadius: BorderRadius.circular(15),
 									),
 								),
 								onPressed: _login,
-								child: Text('login'),
+								child: Text(	'Login',
+									style: TextStyle( fontSize: 16, fontWeight: FontWeight.bold),
 								),
-							SizedBox(height: 22),
+							),
+							const SizedBox(height: 22),
 							TextButton(
 								onPressed: () {
 									setState(() {
@@ -61,21 +74,22 @@ class _LoginScreenState extends State<LoginScreen> {
 								},
 								child: Text(
 									"Sign Up",
-									style: TextStyle(color: Colors.indigo.withOpacity(0.8)),
+									style: TextStyle(color: Colors.grey[300]),
 									),
-								),
+							),
 						] else ...[
 							_buildEmailField(),
-							SizedBox(height: 16),
+							const SizedBox(height: 16),
 							_buildPasswordField(),
-							SizedBox(height: 16),
+							const SizedBox(height: 16),
 							ElevatedButton(
 								style: ElevatedButton.styleFrom(
-								backgroundColor: Colors.purple[100],
-								padding: EdgeInsets.symmetric(horizontal: 35, vertical: 15),
-								shape: RoundedRectangleBorder(
-									borderRadius: BorderRadius.circular(25),
-								),
+										backgroundColor: Colors.greenAccent.shade100,
+										foregroundColor: Colors.blue,
+										padding: EdgeInsets.symmetric(horizontal: 35, vertical: 15),
+										shape: RoundedRectangleBorder(
+											borderRadius: BorderRadius.circular( 15 ),
+										)
 								),
 								onPressed: () {
 									_signUp(
@@ -83,9 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
 										_passwordController.text.trim(),
 									);
 								},
-								child: Text('Sign Up'),
+								child: Text( 'Sign Up',
+									style: TextStyle( fontSize: 16, fontWeight: FontWeight.bold),),
 							),
-							SizedBox(height: 20),
+							const SizedBox(height: 20),
 							TextButton(
 								onPressed: () {
 								  setState( () {
@@ -94,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
 								},
 								child: Text(
 									"Sign in",
-									style: TextStyle( color: Colors.indigo.withOpacity(0.8)),
+									style: TextStyle( color: Colors.grey[800]),
 								),
 							),
 						],
@@ -104,17 +119,35 @@ class _LoginScreenState extends State<LoginScreen> {
 			   ),
 			);
 
-		}
+	}
 
 	Widget _buildEmailField() {
 		return TextFormField(
 				controller: _emailController,
+				style: TextStyle(
+					color: Colors.black,
+					fontSize: 16,
+				),
+
 				decoration: InputDecoration(
 					filled: true,
-					fillColor: Colors.white.withOpacity(0.8),		
-					labelText: 'Email',
-					border: OutlineInputBorder(
-					  borderRadius: BorderRadius.circular(25)
+					fillColor: Colors.white,
+					labelText: 'email',
+					enabledBorder: OutlineInputBorder(
+						borderRadius: BorderRadius.circular( 15 ),
+						borderSide: BorderSide( color: Colors.grey, width: 1.5 ),
+					),
+					focusedBorder: OutlineInputBorder(
+						borderRadius: BorderRadius.circular(15),
+						borderSide: BorderSide(color: Colors.greenAccent.shade200, width: 2.0),
+					),
+					errorBorder: OutlineInputBorder(
+						borderRadius: BorderRadius.circular(15),
+						borderSide: BorderSide(color: Colors.red, width: 1.5),
+					),
+					focusedErrorBorder: OutlineInputBorder(
+						borderRadius: BorderRadius.circular(15),
+						borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
 					),
 				),
 				keyboardType: TextInputType.emailAddress,
@@ -124,26 +157,43 @@ class _LoginScreenState extends State<LoginScreen> {
 					}
 					return null;
 				}, 	
-			);
+		);
 	}
 
 	Widget _buildPasswordField() {
 		return TextFormField(
 			controller: _passwordController,
+			style: TextStyle(
+				color: Colors.black,
+				fontSize: 16,
+			),
 			decoration: InputDecoration(
 				filled: true,
-				fillColor: Colors.white.withOpacity(0.8),
+				fillColor: Colors.white,
 				labelText: 'Password',
-				border: OutlineInputBorder(
-				  borderRadius: BorderRadius.circular(25)
+				enabledBorder: OutlineInputBorder(
+					borderSide: BorderSide( color:  Colors.grey, width: 1.5),
+					borderRadius: BorderRadius.circular(15),
+				),
+				focusedBorder: OutlineInputBorder(
+					borderRadius: BorderRadius.circular(15),
+					borderSide: BorderSide(color: Colors.greenAccent.shade200, width: 2.0),
+				),
+				errorBorder: OutlineInputBorder(
+					borderRadius: BorderRadius.circular(15),
+					borderSide: BorderSide(color: Colors.red, width: 1.5),
+				),
+				focusedErrorBorder: OutlineInputBorder(
+					borderRadius: BorderRadius.circular(15),
+					borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
 				),
 			),
 			obscureText: true,
 			validator: (value) {
 			  if( value == null || value.isEmpty) {
-				return 'Please enter password';
+					return 'Please enter password';
 			  } else if ( value.length < 7 )  {
-				return 'Password length atleast 6 characters';
+					return 'Password length at least 6 characters';
 			  }
 			  return null;
 			},
@@ -153,45 +203,46 @@ class _LoginScreenState extends State<LoginScreen> {
 	Future<void> _signUp( String email, String password ) async {
 		try{
 		  UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-		  print('user credential added');
+			String message = "User credential added";
+		  _showSuccessDialog( message );
 		}
 		on FirebaseAuthException catch (e) {
 		  if ( e.code == 'weak-password') {
-		    print('provided password is weak');
+		    String message = "Weak password";
+				_showErrorDialog( message );
 		  }
 		  else if ( e.code == 'email-already-in-use' ) {
-		    print('An Account is already in use');
+				String message = "email already in use.";
+				_showErrorDialog( message );
 		  }
 		}
 		catch (e) {
-		  print(e);
+			_showErrorDialog( "unexpected error occurred." );
 		}
 	}
 	
 	Future<void> _login() async {
-		if (_formkey.currentState?.validate() ?? false ) {
+		if (_formKey.currentState?.validate() ?? false ) {
 		  final String email = _emailController.text.trim();
 		  final String password = _passwordController.text.trim();
-		  
 		  try {
-			UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword( email:email, password: password );
-			
-			Navigator.pushReplacement(
-				context, 
-				MaterialPageRoute( builder: (context) => HomeScreen()),
-			);
+				UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword( email:email, password: password );
+				if (!mounted) {
+					return;
+				}
+				Navigator.pushReplacementNamed( context, '/home' );
 		  } on FirebaseAuthException catch (e) {
-			String message = 'Login failed';
-			if( e.code == 'user-not-found' ) {
-				message = 'No User found for that email';
-			} else if ( e.code == 'wrong-password' ) {
-				message = 'Incorrect password';
-			}
-			_showErrorDialog( message );
-		    }
-		    catch (e) {
-			_showErrorDialog('An unexpected error occured');
-		    } 	
+				String message = 'Login failed';
+				if( e.code == 'user-not-found' ) {
+					message = 'No User found for that email';
+				} else if ( e.code == 'wrong-password' ) {
+					message = 'Incorrect password';
+				}
+				_showErrorDialog( message );
+					}
+			catch (e) {
+						_showErrorDialog('An unexpected error occurred');
+					}
 		}	 	 
 	}
 
@@ -207,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
 							onPressed: (){
 								Navigator.of(context).pop();
 							},
-						       child: Text('OK'),
+						  child: Text('OK'),
 						),
 					],
 				);
