@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'homeScreen.dart';
 
 //login screen widget allows users enter email and password
@@ -14,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
 	final TextEditingController _emailController = TextEditingController();
 	final TextEditingController _passwordController = TextEditingController();
 	bool isSignUp = false;
+	bool _obscurePassword = true;
 
 	@override
 	void dispose() {
@@ -128,14 +130,13 @@ class _LoginScreenState extends State<LoginScreen> {
 					color: Colors.black,
 					fontSize: 16,
 				),
-
 				decoration: InputDecoration(
 					filled: true,
 					fillColor: Colors.white,
 					labelText: 'email',
 					enabledBorder: OutlineInputBorder(
 						borderRadius: BorderRadius.circular( 15 ),
-						borderSide: BorderSide( color: Colors.grey, width: 1.5 ),
+						borderSide: BorderSide( color: Colors.grey, width: 2),
 					),
 					focusedBorder: OutlineInputBorder(
 						borderRadius: BorderRadius.circular(15),
@@ -156,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
 						return "Please enter email id";
 					}
 					return null;
-				}, 	
+				},
 		);
 	}
 
@@ -167,12 +168,22 @@ class _LoginScreenState extends State<LoginScreen> {
 				color: Colors.black,
 				fontSize: 16,
 			),
+			obscureText: _obscurePassword,
 			decoration: InputDecoration(
 				filled: true,
 				fillColor: Colors.white,
 				labelText: 'Password',
+				suffixIcon: IconButton(
+						icon:Icon(
+							_obscurePassword ? Icons.visibility_off : Icons.visibility,
+						),
+						onPressed: () {
+							setState(() {
+								_obscurePassword = !_obscurePassword;
+							});
+				}),
 				enabledBorder: OutlineInputBorder(
-					borderSide: BorderSide( color:  Colors.grey, width: 1.5),
+					borderSide: BorderSide( color:  Colors.grey, width: 2),
 					borderRadius: BorderRadius.circular(15),
 				),
 				focusedBorder: OutlineInputBorder(
@@ -188,7 +199,6 @@ class _LoginScreenState extends State<LoginScreen> {
 					borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
 				),
 			),
-			obscureText: true,
 			validator: (value) {
 			  if( value == null || value.isEmpty) {
 					return 'Please enter password';
@@ -201,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
 	}
 
 	Future<void> _signUp( String email, String password ) async {
-		try{
+		try {
 		  UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
 			String message = "User credential added";
 		  _showSuccessDialog( message );

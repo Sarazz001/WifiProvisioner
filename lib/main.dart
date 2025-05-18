@@ -1,3 +1,4 @@
+import 'package:WifiProvisioner/deviceScreen.dart';
 import 'package:WifiProvisioner/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,8 +30,8 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       initialRoute: '/',
       routes: {
-        '/': (context) => LoginScreen(),
-        '/home': (context) => HomeScreen(),
+        '/': ( context ) => LoginScreen(),
+        '/home': ( context ) => HomeScreen(),
       },
     );
   }

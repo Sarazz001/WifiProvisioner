@@ -19,8 +19,7 @@ class DeviceListScreen extends StatefulWidget {
 	const DeviceListScreen( {
 		super.key,
 		required this.mode,
-});
-
+	});
 	@override
 	_DeviceListScreenState createState() => _DeviceListScreenState();
 }
@@ -33,7 +32,7 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
 		List<Device> room2Devices = [];
 
 		int count = 0;
-		bool _showAddDevice = false;
+		bool _showDevices = false;
 		final _deviceAddKey = GlobalKey<FormState>();
 
 		final TextEditingController idController = TextEditingController();
@@ -42,27 +41,27 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
 			void _addDevice() {
 					final String id = idController.text.trim();
 					final String access = accessController.text.trim();
-					if(id.isNotEmpty && access.isNotEmpty) {
-						setState(() {
-							if( widget.mode == DeviceScreenType.home ) {
+					if( id.isNotEmpty && access.isNotEmpty ) {
+						setState( () {
+							if ( widget.mode == DeviceScreenType.home ) {
 								homeDevices.add(Device( deviceId : id, deviceAccess :access));
 							}
-							else if( widget.mode == DeviceScreenType.kitchen ) {
+							else if ( widget.mode == DeviceScreenType.kitchen ) {
 								kitchenDevices.add(Device( deviceId : id, deviceAccess :access));
 							}
-							else if( widget.mode == DeviceScreenType.hall ) {
+							else if ( widget.mode == DeviceScreenType.hall ) {
 								hallDevices.add(Device( deviceId : id, deviceAccess :access));
 							}
-							else if( widget.mode == DeviceScreenType.room1 ) {
+							else if ( widget.mode == DeviceScreenType.room1 ) {
 								room1Devices.add(Device( deviceId : id, deviceAccess :access));
 							}
-							else if( widget.mode == DeviceScreenType.room2 ) {
+							else if ( widget.mode == DeviceScreenType.room2 ) {
 								room2Devices.add(Device( deviceId : id, deviceAccess :access));
 							}
-							_showAddDevice = false;
+							_showDevices = false;
 							idController.clear();
 							accessController.clear();
-						});
+						} );
 					}
 			}
 
@@ -75,7 +74,6 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
 						'access' : d.deviceAccess,
 					}).toList(),
 				);
-
 				await localStore.setString( key, deviceListJson );
 			}
 
@@ -83,12 +81,12 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
 				final localStore = await SharedPreferences.getInstance();
 				final jsonString = localStore.getString( key );
 
-				if( jsonString == null ) {
+				if ( jsonString == null ) {
 					return [];
 				}
 				final List<dynamic> decodedJson = jsonDecode( jsonString );
 				return decodedJson.map(
-								(item) => Device(
+								( item ) => Device (
 									deviceId: item['id'],
 									deviceAccess: item['access'],
 								)
@@ -145,7 +143,7 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
 				return Scaffold(
 					appBar: AppBar(
 						title: Text( widget.mode.name ),
-						backgroundColor: Colors.deepPurpleAccent,
+						backgroundColor: Colors.tealAccent,
 					),
 					body: Container(
 						decoration: BoxDecoration(
@@ -162,13 +160,13 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
 								ElevatedButton(
 									onPressed: () {
 										setState(() {
-										  _showAddDevice = true;
+											_showDevices = true;
 										});
 									},
 									child: Text('ADD'),
 								),
 								SizedBox(height: 16.0),
-								if(_showAddDevice) ...[
+								if( _showDevices ) ...[
 									Form(
 										key: _deviceAddKey,
 										child: Column(
@@ -217,9 +215,9 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
 											return Card(
 												margin: EdgeInsets.symmetric(vertical: 8.0),
 												child: ListTile(
-													title: Text(device.deviceId),
+													title: Text( device.deviceId),
 													subtitle: Text('Access: ${device.deviceAccess}'),
-													tileColor: Colors.purpleAccent[100],
+													tileColor: Colors.blue.shade500,
 												),
 											);
 										},
